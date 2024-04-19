@@ -6,6 +6,18 @@ const {
 } = require("../actions/users");
 const { USER_NOT_FOUND } = require("../constants/users");
 
+const getCurrentUser = async (req, res, next) => {
+  try {
+    const { user } = req;
+    if (!user || user === null) {
+      return res.status(400).send({ message: USER_NOT_FOUND });
+    }
+    res.status(200).send({ user });
+  } catch (error) {
+    next(error);
+  }
+};
+
 const getUser = async (req, res, next) => {
   try {
     const { user_id } = req.params;
@@ -57,7 +69,8 @@ const deleteUser = async (req, res, next) => {
 
 module.exports = {
   getUser,
-  postUser,
   putUser,
+  postUser,
   deleteUser,
+  getCurrentUser,
 };

@@ -1,24 +1,32 @@
 const express = require("express");
 const {
   putUser,
-  getUser,
   postUser,
   deleteUser,
+  getCurrentUser,
 } = require("../controllers/users");
 const {
+  PutMyUser,
+  DeleteMyUser,
   ValidUserPutRequest,
   ValidUserPostRequest,
   ValidUserDeleteRequest,
-  ValidUserGetRequest,
 } = require("../middleware/users");
+const { token } = require("../middleware/auth");
 const router = express.Router();
 
-router.get("/:user_id", [ValidUserGetRequest], getUser);
+router.get("/", [token], getCurrentUser);
+
+// Post User no requiere token para usarse como crear cuenta
 
 router.post("/", [ValidUserPostRequest], postUser);
 
-router.put("/", [ValidUserPutRequest], putUser);
+router.put("/", [token, ValidUserPutRequest, PutMyUser], putUser);
 
-router.delete("/:user_id", [ValidUserDeleteRequest], deleteUser);
+router.delete(
+  "/:user_id",
+  [token, ValidUserDeleteRequest, DeleteMyUser],
+  deleteUser
+);
 
 module.exports = router;

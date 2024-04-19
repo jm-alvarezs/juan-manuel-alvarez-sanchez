@@ -1,4 +1,4 @@
-const { users } = require("../models");
+const { users, access_tokens } = require("../models");
 
 const findUsersParams = async (params) => {
   const users = await users.findAll({ where: params });
@@ -7,6 +7,19 @@ const findUsersParams = async (params) => {
 
 const findSingleUserParams = async (params) => {
   const current_user = await users.findOne({ where: params });
+  if (current_user === null) return current_user;
+  return current_user.toJSON();
+};
+
+const findUserByToken = async (token) => {
+  const current_user = await users.findOne({
+    include: {
+      model: access_tokens,
+      where: {
+        token,
+      },
+    },
+  });
   if (current_user === null) return current_user;
   return current_user.toJSON();
 };
@@ -37,6 +50,7 @@ const deleteUserById = async (user_id) => {
 
 module.exports = {
   findUsersParams,
+  findUserByToken,
   findSingleUserParams,
   createUserFromData,
   updateUserFromData,

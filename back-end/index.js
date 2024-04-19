@@ -66,6 +66,6 @@ app.use(function onError(error, req, res, next) {
 });
 
 app.listen(port, async () => {
-  await sequelize.sync();
+  await sequelize.sync({ alter: true });
   console.log(`Tendencys Server running on port ${port}`);
 });

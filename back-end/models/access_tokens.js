@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   access_tokens.init(
     {
-      user_id: DataTypes.INTEGER,
+      user_id: { type: DataTypes.INTEGER, primaryKey: true },
       token: DataTypes.STRING,
     },
     {
