@@ -1,8 +1,21 @@
 const {
+  ProductDeleteSchema,
   ProductPostSchema,
   ProductPutSchema,
-  ProductDeleteSchema,
+  ProductGetSchema,
 } = require("../schemas/products");
+
+const ValidProductGetRequest = async (req, res, next) => {
+  try {
+    const result = ProductGetSchema.validate(req.body);
+    if (result.error) {
+      return res.status(400).send({ error: result.error.details });
+    }
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
 
 const ValidProductPostRequest = async (req, res, next) => {
   try {
@@ -41,6 +54,7 @@ const ValidProductDeleteRequest = async (req, res, next) => {
 };
 
 module.exports = {
+  ValidProductGetRequest,
   ValidProductPutRequest,
   ValidProductPostRequest,
   ValidProductDeleteRequest,

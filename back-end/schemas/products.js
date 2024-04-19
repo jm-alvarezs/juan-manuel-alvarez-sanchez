@@ -1,5 +1,9 @@
 const Joi = require("joi");
 
+const ProductGetSchema = Joi.object({
+  catalog_product_id: Joi.number().required(),
+});
+
 /**
  * Permitimos unknown para permitir que el producto tenga los atributos de timestamp o no
  * Todos los campos son requeridos para evitar null en base de datos
@@ -28,4 +32,9 @@ const ProductDeleteSchema = Joi.object({
   catalog_product_id: Joi.number().required(),
 });
 
-module.exports = { ProductPostSchema, ProductPutSchema, ProductDeleteSchema };
+module.exports = {
+  ProductGetSchema,
+  ProductPostSchema,
+  ProductPutSchema,
+  ProductDeleteSchema,
+};

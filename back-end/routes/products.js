@@ -10,12 +10,13 @@ const {
   ValidProductPostRequest,
   ValidProductPutRequest,
   ValidProductDeleteRequest,
+  ValidProductGetRequest,
 } = require("../middleware/products");
 const router = express.Router();
 
 router.get("/", getAllProducts);
 
-router.get("/:catalog_product_id", getSingleProduct);
+router.get("/:catalog_product_id", [ValidProductGetRequest], getSingleProduct);
 
 router.post("/", [ValidProductPostRequest], postProduct);
 
