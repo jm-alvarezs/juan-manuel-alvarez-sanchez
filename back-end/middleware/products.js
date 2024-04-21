@@ -7,7 +7,7 @@ const {
 
 const ValidProductGetRequest = async (req, res, next) => {
   try {
-    const result = ProductGetSchema.validate(req.body);
+    const result = ProductGetSchema.validate(req.params);
     if (result.error) {
       return res.status(400).send({ error: result.error.details });
     }

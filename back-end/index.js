@@ -10,7 +10,7 @@ const { sequelize } = require("./models");
 app.use(bodyParser.json({ limit: "200mb" }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const allowedOrigins = ["http://localhost:4000"];
+const allowedOrigins = ["http://localhost:5173"];
 
 app.use(
   cors({
@@ -31,19 +31,8 @@ app.use(
   })
 );
 
-applyRoutes("/api", app);
+applyRoutes("/", app);
 
-/*
-if (process.env.NODE_ENV !== "development") {
-  app.use(express.static(`${__dirname}/build`));
-
-  app.get("/*", (req, res) => {
-    res.sendFile(`${__dirname}/build/index.html`);
-  });
-}
-*/
-
-// Optional fallthrough error handler
 app.use(function onError(error, req, res, next) {
   const { response } = error;
 
@@ -57,8 +46,6 @@ app.use(function onError(error, req, res, next) {
       }
     }
   }
-  // The error id is attached to `res.sentry` to be returned
-  // and optionally displayed to the users for support.
   res.statusCode = 500;
   console.log(moment().utc().format("YYYY-MM-DD HH:mm:ss"));
   console.log(error);

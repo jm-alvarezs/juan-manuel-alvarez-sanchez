@@ -1,0 +1,4 @@
+export const CLEAR_ENVIA = "CLEAR_ENVIA";
+export const QUOTE_RECEIVED = "QUOTE_RECEIVED";
+export const LABEL_RECEIVED = "LABEL_RECEIVED";
+export const STATES_RECEIVED = "STATES_RECEIVED";
