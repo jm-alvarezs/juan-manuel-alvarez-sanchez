@@ -6,6 +6,7 @@ const moment = require("moment");
 const applyRoutes = require("./routes");
 const bodyParser = require("body-parser");
 const { sequelize } = require("./models");
+const { seedDatabase } = require("./seed");
 
 app.use(bodyParser.json({ limit: "200mb" }));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -53,6 +54,6 @@ app.use(function onError(error, req, res, next) {
 });
 
 app.listen(port, async () => {
-  await sequelize.sync({ alter: true });
+  await seedDatabase();
   console.log(`Tendencys Server running on port ${port}`);
 });

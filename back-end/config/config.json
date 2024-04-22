@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": "#jmalvarezs2020",
+    "password": null,
     "database": "tendencys",
     "host": "127.0.0.1",
     "dialect": "mysql",
@@ -17,7 +17,7 @@
   "production": {
     "username": "root",
     "password": null,
-    "database": "database_production",
+    "database": "tendencys",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "logging": false
