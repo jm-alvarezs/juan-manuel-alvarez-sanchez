@@ -1,0 +1,15 @@
+exports.ORIGIN = {
+  name: "Juan Manuel Alvarez",
+  company: "",
+  email: "jm.alvarezs98@gmail.com",
+  phone: "8184642850",
+  street: "Rio de la Plata",
+  number: "103",
+  district: "",
+  city: "San Pedro",
+  state: "NL",
+  category: 1,
+  country: "MX",
+  postalCode: "66220",
+  reference: "",
+};
