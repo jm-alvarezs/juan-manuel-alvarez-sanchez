@@ -1,11 +1,21 @@
 const axios = require("axios");
-const { ORIGIN } = require("../constants/envia");
+const {
+  ORIGIN,
+  RATES_RESPONSE,
+  GENERATE_RESPONSE,
+} = require("../constants/envia");
 const { findSingleProductParams } = require("../actions/products");
 const { PRODUCT_NOT_FOUND } = require("../constants/products");
 
 const getShipmentInfo = () => ({
   carrier: "estafeta",
   type: 1,
+});
+
+const getSettings = () => ({
+  printFormat: "PDF",
+  printSize: "STOCK_4X6",
+  comments: "comentarios de el envío",
 });
 
 const getAuthRequestObject = (url, token, data) => ({
@@ -34,7 +44,7 @@ const getPackageFromCatalogProduct = (catalog_product) => ({
   },
 });
 
-const PostQuote = async (req, res, next) => {
+const PostRate = async (req, res, next) => {
   try {
     const { token } = req;
     const data = req.body;
@@ -52,13 +62,47 @@ const PostQuote = async (req, res, next) => {
     data.packages = packages;
     data.shipment = getShipmentInfo();
     const url = "https://api-test.envia.com/ship/rate/";
-    console.log(data);
     const requestObject = getAuthRequestObject(url, token, data);
-    const response = await axios(requestObject);
-    res.status(200).send({ data: response.data });
+    let response = await axios(requestObject);
+    //Error recibido: "Company is not active, please contact envia.com"
+    if (response.data.meta === "error") {
+      response = RATES_RESPONSE;
+    }
+    res.status(200).send({ rates: response.data });
   } catch (error) {
     next(error);
   }
 };
 
-module.exports = { PostQuote };
+const PostGenerate = async (req, res, next) => {
+  try {
+    const { token } = req;
+    const data = req.body;
+    data.origin = ORIGIN;
+    const { catalog_product_id } = data;
+    const catalog_product = await findSingleProductParams({
+      catalog_product_id,
+    });
+    if (catalog_product === null) {
+      return res.status(404).send({ message: PRODUCT_NOT_FOUND });
+    }
+    const catalog_product_package =
+      getPackageFromCatalogProduct(catalog_product);
+    const packages = [catalog_product_package];
+    data.packages = packages;
+    data.settings = getSettings();
+    const url = "https://api-test.envia.com/ship/generate";
+    const requestObject = getAuthRequestObject(url, token, data);
+    console.log(requestObject);
+    let response = await axios(requestObject);
+    //Error recibido: "Company is not active, please contact envia.com"
+    if (response.data.meta === "error") {
+      response = GENERATE_RESPONSE;
+    }
+    res.status(200).send({ labels: response.data });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { PostRate, PostGenerate };

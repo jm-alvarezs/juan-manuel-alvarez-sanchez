@@ -4,7 +4,11 @@ const CatalogProductRow = ({ catalog_product }) => {
   return (
     <div className="row">
       <div className="col-4">
-        <img src="..." class="card-img-top" alt={catalog_product.name} />
+        <img
+          src={catalog_product.thumbnail}
+          className="card-img-top"
+          alt={catalog_product.name}
+        />
       </div>
       <div className="col-8">
         <h5>{catalog_product.name}</h5>

@@ -1,8 +1,8 @@
-const { PostQuoteSchema } = require("../schemas/envia");
+const { PostRateSchema, PostGenerateSchema } = require("../schemas/envia");
 
-const ValidatePostQuoteRequest = async (req, res, next) => {
+const ValidatePostRateRequest = async (req, res, next) => {
   try {
-    const result = PostQuoteSchema.validate(req.body);
+    const result = PostRateSchema.validate(req.body);
     if (result.error) {
       return res.status(400).send({ error: result.error.details });
     }
@@ -12,4 +12,16 @@ const ValidatePostQuoteRequest = async (req, res, next) => {
   }
 };
 
-module.exports = { ValidatePostQuoteRequest };
+const ValidatePostGenerateRequest = async (req, res, next) => {
+  try {
+    const result = PostGenerateSchema.validate(req.body);
+    if (result.error) {
+      return res.status(400).send({ error: result.error.details });
+    }
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { ValidatePostRateRequest, ValidatePostGenerateRequest };

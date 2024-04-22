@@ -6,7 +6,10 @@ const findUsersParams = async (params) => {
 };
 
 const findSingleUserParams = async (params) => {
-  const current_user = await users.findOne({ where: params });
+  const current_user = await users.findOne({
+    where: params,
+    include: access_tokens,
+  });
   if (current_user === null) return current_user;
   return current_user.toJSON();
 };

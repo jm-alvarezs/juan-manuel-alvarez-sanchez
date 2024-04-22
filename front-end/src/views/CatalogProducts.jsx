@@ -17,7 +17,7 @@ const CatalogProducts = () => {
       return catalog_products.map((catalog_product) => (
         <Link
           key={catalog_product.catalog_product_id}
-          className="col-6 col-md-4 col-xl-3"
+          className="col-6 col-md-4 col-xl-3 no-decoration text-dark"
           to={`/${catalog_product.catalog_product_id}`}
         >
           <ProductCard catalog_product={catalog_product} />
@@ -27,7 +27,7 @@ const CatalogProducts = () => {
   };
 
   return (
-    <div className="container-fluid">
+    <div className="container">
       <h1>Productos</h1>
       <div className="row">{renderProducts()}</div>
     </div>

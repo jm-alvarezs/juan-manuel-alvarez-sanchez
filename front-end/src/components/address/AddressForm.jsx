@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
-import { getValue } from "../../utils";
 import { AddressContext } from "../../context/AddressContext";
 import { EnviaContext } from "../../context/EnviaContext";
+import { getValue } from "../../utils";
 
 const AddressForm = ({
   title,
@@ -17,6 +17,7 @@ const AddressForm = ({
 
   useEffect(() => {
     getStates();
+    setPropertyAddress("country", "MX");
   }, []);
 
   const handleSubmit = (event) => {
@@ -39,7 +40,9 @@ const AddressForm = ({
   const renderStates = () => {
     if (Array.isArray(states)) {
       return states.map((state) => (
-        <option value={state.code_2_digits}>{state.name}</option>
+        <option key={state.code_2_digits} value={state.code_2_digits}>
+          {state.name}
+        </option>
       ));
     }
   };
@@ -72,6 +75,63 @@ const AddressForm = ({
   return (
     <form className="row" onSubmit={handleSubmit}>
       {title && <h2>{title}</h2>}
+      <div className="container-fluid mb-3">
+        <label htmlFor="name" className="form-label">
+          Nombre <span className="small text-danger">*</span>
+        </label>
+        <input
+          type="text"
+          id="text"
+          name="name"
+          required
+          className="form-control"
+          value={getValue(address, "name")}
+          onChange={(event) => setPropertyAddress("name", event.target.value)}
+        />
+      </div>
+      <div className="container-fluid mb-3">
+        <label htmlFor="company" className="form-label">
+          Empresa (opcional)
+        </label>
+        <input
+          type="text"
+          id="text"
+          name="company"
+          className="form-control"
+          value={getValue(address, "company")}
+          onChange={(event) =>
+            setPropertyAddress("company", event.target.value)
+          }
+        />
+      </div>
+      <div className="container-fluid mb-3">
+        <label htmlFor="email" className="form-label">
+          Correo Electrónico <span className="small text-danger">*</span>
+        </label>
+        <input
+          type="text"
+          id="text"
+          name="email"
+          required
+          className="form-control"
+          value={getValue(address, "email")}
+          onChange={(event) => setPropertyAddress("email", event.target.value)}
+        />
+      </div>
+      <div className="container-fluid mb-3">
+        <label htmlFor="phone" className="form-label">
+          Teléfono <span className="small text-danger">*</span>
+        </label>
+        <input
+          type="text"
+          id="text"
+          name="phone"
+          required
+          className="form-control"
+          value={getValue(address, "phone")}
+          onChange={(event) => setPropertyAddress("phone", event.target.value)}
+        />
+      </div>
       <div className="col-md-6 mb-2">
         <label htmlFor="street" className="form-label">
           Calle <span className="small text-danger">*</span>
@@ -116,18 +176,18 @@ const AddressForm = ({
         />
       </div>
       <div className="col-12 col-md-6 mb-2">
-        <label htmlFor="neighborhood" className="form-label">
+        <label htmlFor="district" className="form-label">
           Colonia <span className="small text-danger">*</span>
         </label>
         <input
           type="text"
           required
-          id="neighborhood"
-          name="neighborhood"
+          id="district"
+          name="district"
           className="form-control"
-          value={getValue(address, "neighborhood")}
+          value={getValue(address, "district")}
           onChange={(event) =>
-            setPropertyAddress("neighborhood", event.target.value)
+            setPropertyAddress("district", event.target.value)
           }
         />
       </div>
@@ -145,17 +205,17 @@ const AddressForm = ({
         />
       </div>
       <div className="col-md-4 col-12 mb-2">
-        <label htmlFor="zip_code" className="form-label">
+        <label htmlFor="postalCode" className="form-label">
           Código Postal <span className="small text-danger">*</span>
         </label>
         <input
           type="text"
-          id="zip_code"
-          name="zip_code"
+          id="postalCode"
+          name="postalCode"
           className="form-control"
-          value={getValue(address, "zip_code")}
+          value={getValue(address, "postalCode")}
           onChange={(event) =>
-            setPropertyAddress("zip_code", event.target.value)
+            setPropertyAddress("postalCode", event.target.value)
           }
         />
       </div>
@@ -163,7 +223,12 @@ const AddressForm = ({
         <label htmlFor="state" className="form-label">
           Estado <span className="small text-danger">*</span>
         </label>
-        <select className="form-control">{renderStates()}</select>
+        <select
+          onChange={(event) => setPropertyAddress("state", event.target.value)}
+          className="form-control"
+        >
+          {renderStates()}
+        </select>
       </div>
       <div className="col-md-4 col-12 mb-2">
         <label htmlFor="country" className="form-label">

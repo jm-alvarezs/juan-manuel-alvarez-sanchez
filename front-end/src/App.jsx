@@ -5,11 +5,13 @@ import { AddressProvider } from "./context/AddressContext";
 import { EnviaProvider } from "./context/EnviaContext";
 import Home from "./Home";
 import "./App.css";
+import { UserProvider } from "./context/UserContext";
 
 const AppContextProvider = combineComponents([
   CatalogProductsProvider,
   AddressProvider,
   EnviaProvider,
+  UserProvider,
 ]);
 
 function App() {

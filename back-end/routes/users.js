@@ -4,6 +4,7 @@ const {
   postUser,
   deleteUser,
   getCurrentUser,
+  getUserByPhone,
 } = require("../controllers/users");
 const {
   PutMyUser,
@@ -15,7 +16,9 @@ const {
 const { token } = require("../middleware/auth");
 const router = express.Router();
 
-router.get("/", [token], getCurrentUser);
+// Esta ruta se hizo solo con teléfono por el alcance del examen, debería ser autenticada con otro método
+
+router.get("/", getUserByPhone);
 
 // Post User no requiere token para usarse como crear cuenta
 

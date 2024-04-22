@@ -1,9 +1,14 @@
 const express = require("express");
-const { PostQuote } = require("../controllers/envia");
+const { PostRate, PostGenerate } = require("../controllers/envia");
 const { token } = require("../middleware/auth");
-const { ValidatePostQuoteRequest } = require("../middleware/envia");
+const {
+  ValidatePostRateRequest,
+  ValidatePostGenerateRequest,
+} = require("../middleware/envia");
 const router = express.Router();
 
-router.post("/quote", [token, ValidatePostQuoteRequest], PostQuote);
+router.post("/rate", [token, ValidatePostRateRequest], PostRate);
+
+router.post("/generate", [token, ValidatePostGenerateRequest], PostGenerate);
 
 module.exports = router;

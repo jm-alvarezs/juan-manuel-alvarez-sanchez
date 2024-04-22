@@ -1,15 +1,16 @@
 import React, { createContext, useReducer } from "react";
 import {
   CLEAR_ENVIA,
-  LABEL_RECEIVED,
-  QUOTE_RECEIVED,
+  LABELS_RECEIVED,
+  RATES_RECEIVED,
   STATES_RECEIVED,
 } from "../types/envia";
 import EnviaReducer from "../reducers/EnviaReducer";
 import EnviaService from "../services/EnviaService";
+import { states } from "../utils/addresses";
 
 const initialState = {
-  quote: {},
+  rates: null,
   label: {},
 };
 
@@ -23,27 +24,39 @@ export const EnviaProvider = ({ children }) => {
   };
 
   const getStates = () => {
-    EnviaService.getStates("MX").then((res) => {
-      const { data } = res.data;
-      dispatch({ type: STATES_RECEIVED, payload: data });
-    });
+    EnviaService.getStates("MX")
+      .then((res) => {
+        const { data } = res.data;
+        dispatch({ type: STATES_RECEIVED, payload: data });
+      })
+      .catch((error) => {
+        dispatch({ type: STATES_RECEIVED, payload: states });
+      });
   };
 
-  const getQuote = (destination) => {
-    EnviaService.getQuote(destination).then((res) => {
-      const { quote } = res.data;
-      dispatch({ type: QUOTE_RECEIVED, payload: quote });
+  const getRates = (catalog_product_id, destination) => {
+    EnviaService.getRates(catalog_product_id, destination).then((res) => {
+      const { rates } = res.data;
+      dispatch({ type: RATES_RECEIVED, payload: rates });
     });
   };
-  const getLabel = (data) => {
-    EnviaService.getQuote(data).then((res) => {
-      const { quote } = res.data;
-      dispatch({ type: LABEL_RECEIVED, payload: quote });
+  const getLabel = (catalog_product_id, destination, shipment) => {
+    const shipmentData = {
+      carrier: shipment.carrier,
+      service: shipment.service,
+    };
+    EnviaService.getShipping(
+      catalog_product_id,
+      destination,
+      shipmentData
+    ).then((res) => {
+      const { labels } = res.data;
+      dispatch({ type: LABELS_RECEIVED, payload: labels });
     });
   };
   return (
     <EnviaContext.Provider
-      value={{ ...state, getQuote, getLabel, getStates, clearEnvia }}
+      value={{ ...state, getRates, getLabel, getStates, clearEnvia }}
     >
       {children}
     </EnviaContext.Provider>

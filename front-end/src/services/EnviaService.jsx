@@ -1,11 +1,17 @@
 import axios from "axios";
 import api from "./api";
 
-const route = "/services";
+const route = "/envia";
 
 export default {
   getStates: (country_code) =>
     axios.get(`http://queries.envia.com/state?country_code=${country_code}`),
-  getQuote: (data) => api.get(`${route}/quote`, { ...data }),
-  getShipping: (data) => api.get(`${route}/shipping`, { ...data }),
+  getRates: (catalog_product_id, destination) =>
+    api.post(`${route}/rate`, { catalog_product_id, destination }),
+  getShipping: (catalog_product_id, destination, shipment) =>
+    api.post(`${route}/generate`, {
+      catalog_product_id,
+      destination,
+      shipment,
+    }),
 };

@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       name: DataTypes.STRING,
       description: DataTypes.STRING,
+      thumbnail: DataTypes.STRING,
       height: DataTypes.DECIMAL(10, 2),
       length: DataTypes.DECIMAL(10, 2),
       width: DataTypes.DECIMAL(10, 2),

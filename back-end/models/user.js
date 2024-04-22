@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate({ access_tokens }) {
       // define association here
-      this.hasMany(access_tokens, { foreignKey: "user_id" });
+      this.hasOne(access_tokens, { foreignKey: "user_id" });
     }
   }
   users.init(

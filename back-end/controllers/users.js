@@ -6,9 +6,12 @@ const {
 } = require("../actions/users");
 const { USER_NOT_FOUND } = require("../constants/users");
 
-const getCurrentUser = async (req, res, next) => {
+// Este controlador se hizo solo con teléfono por el alcance del examen, debería ser autenticada con otro método
+
+const getUserByPhone = async (req, res, next) => {
   try {
-    const { user } = req;
+    const { phone } = req.query;
+    const user = await findSingleUserParams({ phone });
     if (!user || user === null) {
       return res.status(400).send({ message: USER_NOT_FOUND });
     }
@@ -72,5 +75,5 @@ module.exports = {
   putUser,
   postUser,
   deleteUser,
-  getCurrentUser,
+  getUserByPhone,
 };

@@ -18,7 +18,7 @@ const SingleCatalogProduct = () => {
         <div className="row mh-100vh align-items-center">
           <div className="col-12 col-md-6">
             <img
-              src="..."
+              src={catalog_product.thumbnail}
               className="card-img-top"
               alt={catalog_product.name}
             />

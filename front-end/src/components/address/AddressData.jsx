@@ -7,9 +7,9 @@ const AddressData = ({ address, handleEdit }) => {
     }
     return (
       <div>
-        {address.street !==  null && (
+        {address.street !== null && (
           <p className="mb-1">
-          {address.street} {address.number} {address.neighborhood}
+            {address.street} {address.number} {address.district}
           </p>
         )}
         <p className="mb-1">
